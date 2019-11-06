@@ -337,6 +337,7 @@ _lp_source_config()
     # LP_DISABLED_VCS_PATH="${LP_DISABLED_VCS_PATH}"
     LP_ENABLE_SUDO=${LP_ENABLE_SUDO:-0}
     LP_ENABLE_KUBECONTEXT=${LP_ENABLE_KUBECONTEXT:-1}
+    LP_ENABLE_KUBENS=${LP_ENABLE_KUBENS:-1}
 
     LP_MARK_DEFAULT="${LP_MARK_DEFAULT:-$_LP_MARK_SYMBOL}"
     LP_MARK_BATTERY="${LP_MARK_BATTERY:-"⌁"}"
@@ -359,6 +360,7 @@ _lp_source_config()
     LP_MARK_PREFIX="${LP_MARK_PREFIX:-" "}"
     LP_MARK_PERM="${LP_MARK_PERM:-":"}"
     LP_MARK_KUBECONTEXT=${LP_MARK_KUBECONTEXT:-"☸ "}
+    LP_MARK_KUBENS=${LP_MARK_KUBENS:-"☸ "}
     LP_DELIMITER_KUBECONTEXT=${LP_DELIMITER_KUBECONTEXT:-"-"}
 
     LP_COLOR_PATH=${LP_COLOR_PATH:-$BOLD}
@@ -1480,6 +1482,18 @@ _lp_kube_context()
    fi
 }
 
+######################
+# Kubernetes namespace #
+######################
+
+_lp_kube_namespace()
+{
+   (( LP_ENABLE_KUBENS )) || return
+
+   local _LP_KUBE_NS=$(cat ~/.kube/namespace 2>/dev/null)
+   echo "$_LP_KUBE_NS"
+}
+
 ###############
 # System load #
 ###############
@@ -1760,10 +1774,11 @@ _lp_set_prompt()
         LP_VENV=
     fi
 
-    # add Kubernetes context, if available
+    # add Kubernetes context/ns, if available
     LP_KUBE_CONTEXT=$(_lp_kube_context)
+    LP_KUBE_NS=$(_lp_kube_namespace)
     if [[ "$LP_ENABLE_KUBECONTEXT,${LP_KUBE_CONTEXT-}" = 1,?* ]]; then
-        LP_KUBE=" [${LP_COLOR_KUBERNETES}${LP_MARK_KUBECONTEXT}${LP_KUBE_CONTEXT}${NO_COL}]"
+        LP_KUBE=" [${LP_COLOR_KUBERNETES}${LP_MARK_KUBECONTEXT}${LP_KUBE_CONTEXT}/${LP_KUBE_NS}${NO_COL}]"
     else
         LP_KUBE=
     fi

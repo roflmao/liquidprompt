@@ -170,4 +170,7 @@ LP_ENABLE_KUBECONTEXT=1
 # in order to output "dev" and "test" in prompt.
 LP_DELIMITER_KUBECONTEXT=
 
+# Show current Kubernetes kubectl namespace
+LP_ENABLE_KUBENS=1
+
 # vim: set et sts=4 sw=4 tw=120 ft=sh:

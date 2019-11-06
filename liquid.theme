@@ -25,6 +25,7 @@ if [[ "$(locale -k LC_CTYPE | sed -n 's/^charmap="\(.*\)"/\1/p')" == *"UTF-8"* ]
     LP_MARK_SHORTEN_PATH=" … " # prompt mark in shortened paths
     LP_MARK_PERM=":"           # separator between host and path
     LP_MARK_KUBECONTEXT="☸ "   # Kubernetes context
+    LP_MARK_KUBENS="☸ "   # Kubernetes context
 else
     # If charset is anything else, fallback to ASCII chars
     LP_MARK_BATTERY="b"
@@ -42,6 +43,7 @@ else
     LP_MARK_SHORTEN_PATH=" ... "
     LP_MARK_PERM=":"
     LP_MARK_KUBECONTEXT="k8s:"
+    LP_MARK_KUBENS="k8s:"
 fi
 
 LP_MARK_BRACKET_OPEN="["  # open bracket
